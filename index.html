@@ -42,12 +42,32 @@ h1{margin:16px 0 0;font-size:clamp(1.75rem,4.5vw,2.5rem);font-weight:700;line-he
 .card .h2-en{display:block;margin-top:5px;font-size:.75rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-400);font-family:"Pretendard","Noto Sans JP",system-ui,sans-serif}
 .card p{margin:0;font-size:.875rem;line-height:1.8;color:var(--ink-600)}
 .langs{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.langs a{display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:.375rem;font-size:.8125rem;font-weight:600;transition:all .25s}
-.hd .langs a{background:#F2ECE1;color:#44403C}
-.hd .langs a:hover{background:var(--terracotta);color:#fff}
-.md .langs a{background:#F0F4FA;color:var(--navy);border:1px solid #CBD5E1;border-radius:4px}
-.md .langs a:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
-.langs .ico{width:1em;height:1em;flex:none}
+.lang-wrap{position:relative}
+.lang{display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:.375rem;font-size:.8125rem;font-weight:600;cursor:pointer;transition:all .25s}
+.hd .lang{background:#F2ECE1;color:#44403C}
+.hd .lang:hover,.hd .lang[aria-expanded="true"]{background:var(--terracotta);color:#fff}
+.md .lang{background:#F0F4FA;color:var(--navy);border:1px solid #CBD5E1;border-radius:4px}
+.md .lang:hover,.md .lang[aria-expanded="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.lang .ico{width:1em;height:1em;flex:none;transition:transform .25s}
+.lang[aria-expanded="true"] .ico{transform:rotate(180deg)}
+/* popover */
+.pop{position:absolute;z-index:30;top:calc(100% + 8px);left:0;min-width:15rem;padding:5px;
+ background:var(--card);border:1px solid var(--border);border-radius:.5rem;
+ box-shadow:0 14px 36px -12px rgba(41,37,36,.22),0 3px 8px -3px rgba(41,37,36,.08)}
+.md .pop{border-radius:4px}
+.pop::before{content:"";position:absolute;top:-5px;left:22px;width:8px;height:8px;background:var(--card);
+ border-left:1px solid var(--border);border-top:1px solid var(--border);transform:rotate(45deg)}
+.pop-item{display:flex;align-items:flex-start;gap:10px;padding:10px 11px;border-radius:.375rem;transition:background .2s}
+.md .pop-item{border-radius:4px}
+.pop-item:hover,.pop-item:focus-visible{background:var(--parchment);outline:none}
+.md .pop-item:hover,.md .pop-item:focus-visible{background:#F0F4FA}
+.pop-item .ico{width:17px;height:17px;flex:none;margin-top:2px}
+.hd .pop-item .ico{color:var(--terracotta)}
+.md .pop-item .ico{color:var(--navy)}
+.pop-item b{display:block;font-size:.8125rem;font-weight:600;color:var(--ink);line-height:1.5}
+.pop-item span{display:block;font-size:.6875rem;line-height:1.5;color:var(--ink-400);letter-spacing:.01em}
+.pop-sep{height:1px;margin:3px 8px;background:var(--border)}
+@media(max-width:479px){.pop{left:auto;right:0}.pop::before{left:auto;right:22px}}
 footer{border-top:1px solid var(--border);background:var(--parchment);padding:32px 0;font-size:12px;line-height:1.85;color:var(--ink-600)}
 footer .en{margin-top:8px;font-size:11px;line-height:1.7;color:var(--ink-400);font-family:"Pretendard","Noto Sans JP",system-ui,sans-serif}
 footer .end{display:flex;flex-direction:column;gap:8px;margin-top:14px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)}
@@ -70,8 +90,22 @@ footer .end{display:flex;flex-direction:column;gap:8px;margin-top:14px;font-size
    <h2>弘大の近くで、おいしい選択<span class="h2-en" lang="en">5 restaurants · grilled meat to spicy seafood</span></h2>
    <p>焼き肉・釜飯・タッカルビ・コムタン・イイダコ。レストラン5軒を1人あたりの予算と辛さで比べ、行程の例まで整理しました。</p>
    <div class="langs">
-    <a href="hongdae-ja.html" lang="ja">日本語<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
-    <a href="hongdae.html" lang="ko">한국어<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+    <div class="lang-wrap">
+<a class="lang" href="hongdae-ja.html" lang="ja" aria-haspopup="true" aria-expanded="false" aria-controls="pop-hongdae-ja-ja">日本語<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+<div class="pop" id="pop-hongdae-ja-ja" hidden>
+<a class="pop-item" href="hongdae-ja.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg><span><b>開く</b><span lang="en">Open in browser</span></span></a>
+<div class="pop-sep"></div>
+<a class="pop-item" href="offline/hongdae-ja.html" download="hongdae-dining-guide-ja.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 18v2h16v-2"/></svg><span><b>ダウンロード</b><span lang="en">Offline HTML · approx. 7MB</span></span></a>
+</div>
+</div>
+    <div class="lang-wrap">
+<a class="lang" href="hongdae.html" lang="ko" aria-haspopup="true" aria-expanded="false" aria-controls="pop-hongdae-ko">한국어<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+<div class="pop" id="pop-hongdae-ko" hidden>
+<a class="pop-item" href="hongdae.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg><span><b>開く</b><span lang="en">Open in browser</span></span></a>
+<div class="pop-sep"></div>
+<a class="pop-item" href="offline/hongdae.html" download="hongdae-dining-guide-ko.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 18v2h16v-2"/></svg><span><b>ダウンロード</b><span lang="en">Offline HTML · approx. 7MB</span></span></a>
+</div>
+</div>
    </div>
   </article>
   <article class="card md">
@@ -79,8 +113,22 @@ footer .end{display:flex;flex-direction:column;gap:8px;margin-top:14px;font-size
    <h2>明洞、一食と一口<span class="h2-en" lang="en">5 restaurants + evening street food route</span></h2>
    <p>カルグクス・焼き肉・カンジャンケジャン・ビビンバ・丸鶏。レストラン5軒に加えて、夜の屋台コースと動線の例も収めています。</p>
    <div class="langs">
-    <a href="myeongdong-ja.html" lang="ja">日本語<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
-    <a href="myeongdong.html" lang="ko">한국어<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+    <div class="lang-wrap">
+<a class="lang" href="myeongdong-ja.html" lang="ja" aria-haspopup="true" aria-expanded="false" aria-controls="pop-myeongdong-ja-ja">日本語<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+<div class="pop" id="pop-myeongdong-ja-ja" hidden>
+<a class="pop-item" href="myeongdong-ja.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg><span><b>開く</b><span lang="en">Open in browser</span></span></a>
+<div class="pop-sep"></div>
+<a class="pop-item" href="offline/myeongdong-ja.html" download="myeongdong-dining-guide-ja.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 18v2h16v-2"/></svg><span><b>ダウンロード</b><span lang="en">Offline HTML · approx. 7.3MB</span></span></a>
+</div>
+</div>
+    <div class="lang-wrap">
+<a class="lang" href="myeongdong.html" lang="ko" aria-haspopup="true" aria-expanded="false" aria-controls="pop-myeongdong-ko">한국어<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+<div class="pop" id="pop-myeongdong-ko" hidden>
+<a class="pop-item" href="myeongdong.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg><span><b>開く</b><span lang="en">Open in browser</span></span></a>
+<div class="pop-sep"></div>
+<a class="pop-item" href="offline/myeongdong.html" download="myeongdong-dining-guide-ko.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 18v2h16v-2"/></svg><span><b>ダウンロード</b><span lang="en">Offline HTML · approx. 7.3MB</span></span></a>
+</div>
+</div>
    </div>
   </article>
  </div>
@@ -90,4 +138,29 @@ footer .end{display:flex;flex-direction:column;gap:8px;margin-top:14px;font-size
  <p class="en" lang="en">Prices and opening hours change — please confirm at the venue before visiting. Recommendations and budget ranges are editorial judgements; sources are linked in each guide.</p>
  <div class="end"><span lang="en">Private guide · not indexed by search engines</span></div>
 </div></footer>
+<script>
+(function(){
+  var open=null;
+  function close(){ if(!open) return; open.pop.hidden=true; open.btn.setAttribute('aria-expanded','false'); open=null; }
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('.lang');
+    if(btn){
+      e.preventDefault();
+      var pop=document.getElementById(btn.getAttribute('aria-controls'));
+      var was=open&&open.btn===btn;
+      close();
+      if(!was){ pop.hidden=false; btn.setAttribute('aria-expanded','true'); open={btn:btn,pop:pop};
+                var first=pop.querySelector('.pop-item'); if(first) first.focus(); }
+      return;
+    }
+    if(!e.target.closest('.pop')) close();
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&open){ var b=open.btn; close(); b.focus(); }
+  });
+  document.addEventListener('focusin',function(e){
+    if(open&&!e.target.closest('.lang-wrap')) close();
+  });
+})();
+</script>
 </body></html>
